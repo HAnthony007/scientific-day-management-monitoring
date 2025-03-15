@@ -1,5 +1,5 @@
 import { convertZodErrors } from "@/lib/utils";
-import { registerFormSchemas, registerSchemaType } from "./signupSchema";
+import { registerFormSchemas, registerSchemaType } from "./signup.schema";
 
 export async function signupAction(formData: registerSchemaType) {
     const validateFields = registerFormSchemas.safeParse(formData);

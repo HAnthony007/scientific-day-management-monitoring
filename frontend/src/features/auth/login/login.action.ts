@@ -1,5 +1,5 @@
 import { convertZodErrors } from "@/lib/utils";
-import { loginFormSchemas, loginSchemaType } from "./loginSchema";
+import { loginFormSchemas, loginSchemaType } from "./login.schema";
 
 export async function loginAction(formData: loginSchemaType) {
     const validatedFields = loginFormSchemas.safeParse(formData);

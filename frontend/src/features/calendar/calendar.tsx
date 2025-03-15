@@ -1,7 +1,7 @@
 "use client";
 import { MyEvent } from "@/components/calendar/calendar.type";
-import { EventDialog } from "@/components/calendar/event-dialog";
-import { EventForm } from "@/components/calendar/event-form";
+import { EventDialog } from "@/components/calendar/event.dialog";
+import { EventForm } from "@/components/calendar/event.form";
 import { Button } from "@/components/ui/button";
 import { format, getDay, parse, startOfWeek } from "date-fns";
 import { enUS } from "date-fns/locale";
