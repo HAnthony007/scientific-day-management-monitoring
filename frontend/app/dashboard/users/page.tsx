@@ -1,3 +1,9 @@
+import UsersTable from "@/features/users/table-users";
+
 export default function UsersPage() {
-    return <h1>Hello Users</h1>;
+    return (
+        <>
+            <UsersTable />
+        </>
+    );
 }

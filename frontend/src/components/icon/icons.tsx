@@ -1,9 +1,12 @@
 import {
+    BanknoteIcon,
     CalendarDaysIcon,
     GalleryVerticalEndIcon,
     LayoutDashboardIcon,
     Loader2,
     LucideProps,
+    Shield,
+    UserCog2Icon,
     Users2Icon,
 } from "lucide-react";
 
@@ -12,6 +15,10 @@ export const Icons = {
     users: Users2Icon,
     calendar: CalendarDaysIcon,
     spinner: Loader2,
+    superAdmin: Shield,
+    admin: UserCog2Icon,
+    manager: Users2Icon,
+    cashier: BanknoteIcon,
     logo: GalleryVerticalEndIcon,
     gitHub: ({ ...props }: LucideProps) => (
         <svg
