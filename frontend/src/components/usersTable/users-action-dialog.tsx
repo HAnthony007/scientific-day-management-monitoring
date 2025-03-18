@@ -27,6 +27,7 @@ import { z } from "zod";
 import { PasswordInput } from "../ui/password-input";
 import { ScrollArea } from "../ui/scroll-area";
 import { SelectDropdown } from "../ui/select-dropdown";
+import axiosInstance from "@/lib/axiosInstance";
 
 const formSchema = z
     .object({
@@ -113,18 +114,33 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
               },
     });
 
-    const onSubmit = (values: UserForm) => {
+    const onSubmit = async (values: UserForm) => {
         form.reset();
-        toast.message("You submitted the following values:", {
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(values, null, 2)}
-                    </code>
-                </pre>
-            ),
-        });
-        onOpenChange(false);
+        try {
+            let response;
+            if (isEdit) {
+                response = await axiosInstance.put(`/User/${currentRow.id_user}`, values)
+                toast.success(response.data.msg)
+            } else {
+                response = await axiosInstance.post("/register", values)
+                toast.success(response.data.msg)
+            }
+            
+        } catch (error) {
+            console.error("Errors lors de la soumission: ", error)
+            toast.error("Une erreur est survenue")
+        }finally {
+            onOpenChange(false);
+        }
+        // toast.message("You submitted the following values:", {
+        //     description: (
+        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //             <code className="text-white">
+        //                 {JSON.stringify(values, null, 2)}
+        //             </code>
+        //         </pre>
+        //     ),
+        // });
     };
 
     const isPasswordTouched = !!form.formState.dirtyFields.password;

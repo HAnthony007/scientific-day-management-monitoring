@@ -1,6 +1,23 @@
 "use client";
 import axiosInstance from "@/lib/axiosInstance";
+import { userListSchema } from "./users-schema";
 
+
+
+export const fetchUsers = async () => {
+    try {
+        const res = await axiosInstance.get("/User/listeUser");
+        const rawData = res.data.data
+        console.log(rawData)
+        return userListSchema.parse(rawData); 
+    } catch (error) {
+        console.error(
+            "Erreur lors de la récupération des utilisateurs :",
+            error
+        );
+        throw error; // Tu peux aussi relancer l'erreur ou la gérer différemment
+    }
+};
 // export const users = Array.from({ length: 20 }, () => {
 //     const firstName = faker.person.firstName();
 //     const lastName = faker.person.lastName();
@@ -30,16 +47,3 @@ import axiosInstance from "@/lib/axiosInstance";
 //         updatedAt: faker.date.recent(),
 //     };
 // });
-
-export const users = async () => {
-    try {
-        const res = await axiosInstance.get("/User/listeUser");
-        return res.data;
-    } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des utilisateurs :",
-            error
-        );
-        throw error; // Tu peux aussi relancer l'erreur ou la gérer différemment
-    }
-};

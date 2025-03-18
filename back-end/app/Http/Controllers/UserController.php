@@ -38,45 +38,84 @@ class UserController extends Controller
         ], 200);
     }
 
-    // public function userConnecter(Request $request){
-    //     $user = $request->get("user");
-    //     return response()->json([
-    //         'user'=>[
-    //             'lastName' => $user->name,
-    //             'email' => $user->email,
-    //             'role' => $user->role,
-    //         ]
-    //     ]);
-    // }
+    public function destroy($id) {
+        $user = User::find($id);
 
-    public function update(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => "required|max:255",
-            'lastName' => 'required|max:255',
-            'firstName' => 'required|max:255',
-            'photo' => 'mimes:jpeg,jpg|max:20971',
-            'password' => 'required|max:255'
-        ]);
-        if ($validator->fails()) {
+        if (!$user) {
             return response()->json([
-                'data' => $validator->errors(),
-                "msg" => 'Erreur de champs'
-            ], 422);
+                'data' => null,
+                'msg' => 'Utilisateur introuvable'
+            ], 404);
         }
-        $user = User::find($request->get("id"));
-        $user->update($validator->valid());
-        if ($request->hasFile('user_photo')) {
-            $file = $request->file('user_photo');
-            $filePath = 'user_photo/' . $request->get("id");
-            $file->move(public_path('user_photo/'), $file->getClientOriginalName());
-            $user->photo = $filePath;
-        }
-        $user->save();
+    
+        $user->delete();
+    
         return response()->json([
-            "msg" => "Modification effectuer",
-            'data' => null
+                'data' => null,
+            'msg' => 'Utilisateur supprimé avec succès'
         ], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+                'data' => null,
+            'msg' => 'Utilisateur introuvable'
+        ], 404);
+    }
+
+   // Création du validateur
+   $validator = Validator::make($request->all(), [
+    'name' => 'sometimes|string|max:255',
+    'email' => 'sometimes|email|unique:users,email,' . $id . ',id_user',
+    'role' => 'sometimes|in:admin,organisateur,participant',
+    'status' => 'sometimes|in:active,inactive,invited,suspended',
+]);
+
+// Vérification si la validation échoue
+if ($validator->fails()) {
+    return response()->json([
+        'data' => $validator->errors(),
+        "msg" => 'Erreur de champs'
+    ], 422);
+}
+
+    // Mise à jour des champs fournis
+    $user->update($validator->validated());
+
+    return response()->json([
+        'msg' => 'Utilisateur mis à jour avec succès',
+        'data' => $user
+    ], 200);
+        // $validator = Validator::make($request->all(), [
+        //     'email' => "required|max:255",
+        //     'lastName' => 'required|max:255',
+        //     'firstName' => 'required|max:255',
+        //     'photo' => 'mimes:jpeg,jpg|max:20971',
+        //     'password' => 'required|max:255'
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'data' => $validator->errors(),
+        //         "msg" => 'Erreur de champs'
+        //     ], 422);
+        // }
+        // $user = User::find($request->get("id"));
+        // $user->update($validator->valid());
+        // $user->save();
+        // return response()->json([
+        //     "msg" => "Modification effectuer",
+        //     'data' => null
+        // ], 200);
+        // if ($request->hasFile('user_photo')) {
+        //     $file = $request->file('user_photo');
+        //     $filePath = 'user_photo/' . $request->get("id");
+        //     $file->move(public_path('user_photo/'), $file->getClientOriginalName());
+        //     $user->photo = $filePath;
+        // }
     }
 
     public function updatePts(Request $request)

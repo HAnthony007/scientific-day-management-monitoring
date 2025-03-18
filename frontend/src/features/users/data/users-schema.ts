@@ -18,10 +18,9 @@ const userSchema = z.object({
     id_user: z.number(),
     name: z.string(),
     email: z.string(),
-    status: userStatusSchema,
+    status: userStatusSchema.optional(),
     role: userRoleSchema,
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    photo: z.string().nullable(),
 });
 export type User = z.infer<typeof userSchema>;
 

@@ -18,8 +18,8 @@ export const navItems: NavItem[] = [
         items: [],
     },
     {
-        title: "Calendar",
-        url: "/dashboard/calendar",
+        title: "Events",
+        url: "/dashboard/events",
         icon: "calendar",
         isActive: false,
         shortcut: ["c", "d"],

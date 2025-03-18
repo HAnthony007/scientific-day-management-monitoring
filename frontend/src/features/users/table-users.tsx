@@ -1,14 +1,29 @@
+"use client"
 import { Main } from "@/components/layout/main";
 import { columns } from "@/components/usersTable/users-columns";
 import { UsersDialogs } from "@/components/usersTable/users-dialogs";
 import { UsersPrimaryButtons } from "@/components/usersTable/users-primary-buttons";
 import { UserTable } from "@/components/usersTable/users-table";
 import UsersProvider from "./context/users-context";
-import { users } from "./data/users";
-import { userListSchema } from "./data/users-schema";
+import { fetchUsers} from "./data/users";
+import { User } from "./data/users-schema";
+import { useEffect, useState } from "react";
 
-export default async function UsersTable() {
-    const userList = await userListSchema.parse(users);
+export default function UsersTable() {
+    const [userList, setUserList] = useState<User[]>([]);
+
+    useEffect(()=> {
+        const loadUsers = async () => {
+            try {
+                const data = await fetchUsers();
+                setUserList(data)
+            } catch (error) {
+                console.error("Erreur lors du chargement des utilisateurs: ", error)
+            }
+        }
+        loadUsers()
+    },[])
+    console.log(userList)
 
     return (
         <div className="h-full w-full px-4">

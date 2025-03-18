@@ -17,7 +17,7 @@ class Event extends Model
 
     public function organizer()
     {
-        return $this->belongsTo(User::class, 'organisateur_id');
+        return $this->belongsTo(User::class, 'organisateur_id', 'id_user');
     }
 
     public function interventions()

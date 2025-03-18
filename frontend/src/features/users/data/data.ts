@@ -21,13 +21,13 @@ export const userTypes = [
         icon: Icons.admin,
     },
     {
-        label: "Manager",
-        value: "manager",
+        label: "Organisateur",
+        value: "organisateur",
         icon: Icons.manager,
     },
     {
-        label: "Cashier",
-        value: "cashier",
+        label: "Participant",
+        value: "participant",
         icon: Icons.cashier,
     },
 ] as const;

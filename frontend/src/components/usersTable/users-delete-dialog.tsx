@@ -8,6 +8,7 @@ import { AlertTriangleIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "../ui/confirm-dialog";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface Props {
     open: boolean;
@@ -18,19 +19,11 @@ interface Props {
 export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
     const [value, setValue] = useState("");
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (value.trim() !== currentRow.name) return;
-
+        const res =await axiosInstance.delete(`/User/${currentRow.id_user}`)
         onOpenChange(false);
-        toast.message("The following user has been deleted:", {
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(currentRow, null, 2)}
-                    </code>
-                </pre>
-            ),
-        });
+        toast.success(res.data.msg)
     };
 
     return (

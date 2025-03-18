@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CoursController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\UserController;
@@ -33,8 +34,18 @@ Route::middleware(['auth:api', 'inject.user'])->group(function(){
         // Admin
         Route::get('listeUser','allUser');
         Route::get('me','me');
+        Route::delete('/{id}','destroy');
+        Route::put('/{id}','update');
         Route::post("updatePts","updatePts");
         Route::post("updateLvl","updateLvl");
+    });
+    Route::apiResource('Events', EventController::class)->except(['create','edit','show']);
+    Route::prefix('/Events/')->controller(EventController::class)->group(function(){
+        Route::get('','index');
+        Route::get('/{id}','show');
+        Route::delete('/{id}','destroy');
+        Route::put('/{id}','update');
+        Route::post("","store");
     });
     Route::apiResource('Course',CourseController::class)->except(['create','edit']);
     Route::prefix('/Course/')->controller(CourseController::class)->group(function(){
