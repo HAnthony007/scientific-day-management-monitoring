@@ -24,7 +24,7 @@ export function UsersDialogs() {
             {currentRow && (
                 <>
                     <UsersActionDialog
-                        key={`user-edit-${currentRow.id}`}
+                        key={`user-edit-${currentRow.id_user}`}
                         open={open === "edit"}
                         onOpenChange={() => {
                             setOpen("edit");
@@ -36,7 +36,7 @@ export function UsersDialogs() {
                     />
 
                     <UsersDeleteDialog
-                        key={`user-delete-${currentRow.id}`}
+                        key={`user-delete-${currentRow.id_user}`}
                         open={open === "delete"}
                         onOpenChange={() => {
                             setOpen("delete");

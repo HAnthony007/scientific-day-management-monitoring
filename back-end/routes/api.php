@@ -28,10 +28,11 @@ Route::post('/register',[AuthController::class,'register']);
 // Route::post('/register',[AuthController::class,'register']);
 
 Route::middleware(['auth:api', 'inject.user'])->group(function(){
-    Route::apiResource('User',UserController::class)->except(['create','edit']);
+    Route::apiResource('User',UserController::class)->except(['create','edit', 'show']);
     Route::prefix('/User/')->controller(UserController::class)->group(function(){
+        // Admin
         Route::get('listeUser','allUser');
-        // Route::get('userConnecter','userConnecter');
+        Route::get('me','me');
         Route::post("updatePts","updatePts");
         Route::post("updateLvl","updateLvl");
     });

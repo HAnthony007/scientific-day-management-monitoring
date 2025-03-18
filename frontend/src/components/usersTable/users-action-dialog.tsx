@@ -30,12 +30,7 @@ import { SelectDropdown } from "../ui/select-dropdown";
 
 const formSchema = z
     .object({
-        firstName: z.string().min(1, { message: "First Name is required." }),
-        lastName: z.string().min(1, { message: "Last Name is required." }),
-        username: z.string().min(1, { message: "Username is required." }),
-        phoneNumber: z
-            .string()
-            .min(1, { message: "Phone number is required." }),
+        name: z.string().min(1, { message: "Name is required." }),
         email: z
             .string()
             .min(1, { message: "Email is required." })
@@ -109,12 +104,9 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                   isEdit,
               }
             : {
-                  firstName: "",
-                  lastName: "",
-                  username: "",
+                  name: "",
                   email: "",
                   role: "",
-                  phoneNumber: "",
                   password: "",
                   confirmPassword: "",
                   isEdit,
@@ -166,51 +158,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                         >
                             <FormField
                                 control={form.control}
-                                name="firstName"
+                                name="name"
                                 render={({ field }) => (
                                     <FormItem className="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                                         <FormLabel className="col-span-2 text-right">
-                                            First Name
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="John"
-                                                className="col-span-4"
-                                                autoComplete="off"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="col-span-4 col-start-3" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="lastName"
-                                render={({ field }) => (
-                                    <FormItem className="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
-                                        <FormLabel className="col-span-2 text-right">
-                                            Last Name
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Doe"
-                                                className="col-span-4"
-                                                autoComplete="off"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="col-span-4 col-start-3" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="username"
-                                render={({ field }) => (
-                                    <FormItem className="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
-                                        <FormLabel className="col-span-2 text-right">
-                                            Username
+                                            Name
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -234,25 +186,6 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                                         <FormControl>
                                             <Input
                                                 placeholder="john.doe@gmail.com"
-                                                className="col-span-4"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="col-span-4 col-start-3" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="phoneNumber"
-                                render={({ field }) => (
-                                    <FormItem className="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
-                                        <FormLabel className="col-span-2 text-right">
-                                            Phone Number
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="+123456789"
                                                 className="col-span-4"
                                                 {...field}
                                             />

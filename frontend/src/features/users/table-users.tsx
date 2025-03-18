@@ -7,8 +7,8 @@ import UsersProvider from "./context/users-context";
 import { users } from "./data/users";
 import { userListSchema } from "./data/users-schema";
 
-export default function UsersTable() {
-    const userList = userListSchema.parse(users);
+export default async function UsersTable() {
+    const userList = await userListSchema.parse(users);
 
     return (
         <div className="h-full w-full px-4">
