@@ -36,7 +36,10 @@ class AuthController extends Controller
         $user = JWTAuth::user();
 
         return response()->json([
-            'data' => $token,
+            'data' => [
+                'token'=> $token,
+                'user'=> $user
+            ],
             'msg'=>"Connexion effectué"
         ]);
     }
@@ -74,7 +77,7 @@ class AuthController extends Controller
     
             return response()->json([
                 'data'=>null,
-                'msg' => 'User created'
+                'msg' => 'Register successfully!'
             ], 201);
         } catch (\Exception $e) {
             return response()->json([

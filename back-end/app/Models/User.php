@@ -19,7 +19,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
 
-     public function getJWTIdentifier()
+    protected $primaryKey = 'id_user';
+
+    public function getJWTIdentifier()
     {
         return $this->getKey(); // Retourne l'identifiant de l'utilisateur (généralement l'ID)
     }

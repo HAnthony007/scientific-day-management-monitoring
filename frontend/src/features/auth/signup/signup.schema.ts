@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const registerFormSchemas = z
     .object({
-        pseudo: z
+        name: z
             .string()
             .min(3, { message: "Pseudo must be at least 3 characters." })
             .trim(),
@@ -26,7 +26,7 @@ export type registerSchemaType = z.infer<typeof registerFormSchemas>;
 export type registerFormState =
     | {
           errors?: {
-              pseudo: string[];
+              name: string[];
               email?: string[];
               password?: string[];
           };

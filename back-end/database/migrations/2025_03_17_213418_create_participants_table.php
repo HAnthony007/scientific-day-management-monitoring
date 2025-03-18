@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('event_id')->constrained('events');
+            $table->bigIncrements('id_participant');
+            $table->foreignId('user_id')->constrained('users', 'id_user');
+            $table->foreignId('event_id')->constrained('events', 'id_event');
             $table->enum('status', ['inscrit', 'valide', 'absent'])->default('inscrit');
 
             $table->timestamps();

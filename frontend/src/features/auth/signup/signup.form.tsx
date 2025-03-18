@@ -3,18 +3,17 @@
 import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import axiosInstance from "@/lib/axiosInstance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { signupAction } from "./signup.action";
 import { registerFormSchemas, registerSchemaType } from "./signup.schema";
 
 export const SignupForm = () => {
     const router = useRouter();
-
     const {
         register,
         handleSubmit,
@@ -30,16 +29,13 @@ export const SignupForm = () => {
     const onSubmit = async (data: registerSchemaType) => {
         setIsSubmitting(true);
 
-        toast.promise(signupAction(data), {
+        toast.promise(axiosInstance.post("/register", data), {
             loading: "Register in...",
             success: (result) => {
                 setIsSubmitting(false);
                 reset();
-                if (result.successMessage) {
-                    router.push("/login");
-                    return result.successMessage;
-                }
-                return "Register successfully!";
+                router.push("/login");
+                return result.data.msg;
             },
             error: (result) => {
                 setIsSubmitting(false);
@@ -55,9 +51,9 @@ export const SignupForm = () => {
             <div className="flex flex-col gap-6">
                 <div>
                     <label
-                        htmlFor="pseudo"
+                        htmlFor="Name"
                         className={
-                            errors.pseudo
+                            errors.name
                                 ? "text-red-500 text-muted-foreground"
                                 : "text-muted-foreground"
                         }
@@ -65,13 +61,13 @@ export const SignupForm = () => {
                         Pseudo
                     </label>
                     <Input
-                        {...register("pseudo")}
-                        className={errors.pseudo ? "border-red-500" : ""}
+                        {...register("name")}
+                        className={errors.name ? "border-red-500" : ""}
                         placeholder="Your pseudo"
                     />
-                    {errors.pseudo && (
+                    {errors.name && (
                         <div className="text-red-500 text-sm">
-                            {errors.pseudo.message}
+                            {errors.name.message}
                         </div>
                     )}
                 </div>

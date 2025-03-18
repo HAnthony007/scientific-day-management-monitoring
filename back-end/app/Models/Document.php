@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'id_document';
+
     protected $fillable = [
         'nom_fichier', 'chemin_stockage', 'event_id', 'intervention_id'
     ];

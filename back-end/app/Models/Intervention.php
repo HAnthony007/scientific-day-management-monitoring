@@ -9,6 +9,8 @@ class Intervention extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_intervention';
+
     protected $fillable = [
         'titre', 'description', 'heure_deb', 'heure_fin', 'event_id', 'intervenant_id', 'type_intervention', 'document_id'
     ];

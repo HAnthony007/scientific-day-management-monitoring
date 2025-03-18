@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('interventions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id_intervention');
             $table->string('titre');
             $table->text('description');
             $table->time('heure_deb');
             $table->time('heure_fin');
-            $table->foreignId('event_id')->constrained('events');
-            $table->foreignId('intervenant_id')->constrained('users');
+            $table->foreignId('event_id')->constrained('events', 'id_event');
+            $table->foreignId('intervenant_id')->constrained('users', 'id_user');
             $table->enum('type_intervention', ['conference', 'atelier', 'table ronde']);
             // $table->foreignId('document_id')->nullable()->constrained('documents')->onDelete('set null');
             $table->timestamps();

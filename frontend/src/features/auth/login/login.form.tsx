@@ -3,15 +3,21 @@
 import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import axiosInstance from "@/lib/axiosInstance";
+import { useAuthStore } from "@/stores/AuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { loginAction } from "./login.action";
 import { loginFormSchemas, loginSchemaType } from "./login.schema";
 
 export const LoginForm = () => {
+    // const router = useRouter();
+    const setUser = useAuthStore((state) => state.setUser);
+    const setToken = useAuthStore((state) => state.setToken);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -21,17 +27,21 @@ export const LoginForm = () => {
         resolver: zodResolver(loginFormSchemas),
         mode: "onBlur",
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onSubmit = async (data: loginSchemaType) => {
         setIsSubmitting(true);
 
-        toast.promise(loginAction(data), {
+        toast.promise(axiosInstance.post("/login", data), {
             loading: "Logging in...",
-            success: () => {
+            success: (result) => {
                 setIsSubmitting(false);
                 reset();
-                return "Logged in successfully!";
+                console.log(result);
+                const { token, user } = result.data.data;
+                setUser(user);
+                setToken(token, user.role);
+
+                return result.data.msg;
             },
             error: (result) => {
                 setIsSubmitting(false);

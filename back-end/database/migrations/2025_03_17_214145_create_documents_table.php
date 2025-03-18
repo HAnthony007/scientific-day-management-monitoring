@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('documents', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id_document');
             $table->string('nom_fichier');
             $table->string('chemin_stockage');
-            $table->foreignId('event_id')->constrained('events');
-            $table->foreignId('intervention_id')->nullable()->constrained('interventions')->onDelete('set null');
+            $table->foreignId('event_id')->constrained('events', 'id_event');
+            $table->foreignId('intervention_id')->nullable()->constrained('interventions', 'id_intervention')->onDelete('set null');
 
             $table->timestamps();
         });
