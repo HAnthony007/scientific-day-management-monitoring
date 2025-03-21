@@ -21,11 +21,9 @@ export type EventFormProps = {
 const defaultFormData = {
     title: "",
     description: "",
-    location: "",
-    startDate: "",
-    startTime: "00:00",
-    endDate: "",
-    endTime: "23:59",
+    lieu: "",
+    date_deb: "",
+    date_fin: "",
 };
 
 export const EventForm = ({
@@ -48,24 +46,20 @@ export const EventForm = ({
             setFormData({
                 title: event.title,
                 description: event.description || "",
-                location: event.location || "",
-                startDate: format(event.start, "yyyy-MM-dd"),
-                startTime: format(event.start, "HH:mm"),
-                endDate: format(event.end, "yyyy-MM-dd"),
-                endTime: format(event.end, "HH:mm"),
+                lieu: event.lieu|| "",
+                date_deb: format(event.date_deb, "yyyy-MM-dd"),
+                date_fin: format(event.date_fin, "yyyy-MM-dd"),
             });
         } else if (selectedDate) {
-            const startDate = format(selectedDate, "yyyy-MM-dd");
-            const endDate = selectedEndDate
+            const date_deb= format(selectedDate, "yyyy-MM-dd");
+            const date_fin= selectedEndDate
                 ? format(selectedEndDate, "yyyy-MM-dd")
-                : startDate;
+                : date_deb;
 
             setFormData({
                 ...defaultFormData,
-                startDate,
-                endDate,
-                startTime: "00:00",
-                endTime: selectedEndDate ? "23:59" : "23:59",
+                date_deb,
+                date_fin,
             });
         }
     }, [event, open, selectedDate, selectedEndDate]);
@@ -73,15 +67,15 @@ export const EventForm = ({
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        const start = new Date(`${formData.startDate}T${formData.startTime}`);
-        const end = new Date(`${formData.endDate}T${formData.endTime}`);
+        const date_deb = new Date(`${formData.date_deb}`);
+        const date_fin = new Date(`${formData.date_fin}`);
 
         onSave({
             title: formData.title,
             description: formData.description,
-            location: formData.location,
-            start,
-            end,
+            lieu: formData.lieu,
+            date_deb,
+            date_fin,
         });
 
         onClose();
@@ -119,22 +113,11 @@ export const EventForm = ({
                             <div className="space-y-2">
                                 <Input
                                     type="date"
-                                    value={formData.startDate}
+                                    value={formData.date_deb}
                                     onChange={(e) =>
                                         setFormData({
                                             ...formData,
-                                            startDate: e.target.value,
-                                        })
-                                    }
-                                    required
-                                />
-                                <Input
-                                    type="time"
-                                    value={formData.startTime}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            startTime: e.target.value,
+                                            date_deb: e.target.value,
                                         })
                                     }
                                     required
@@ -146,22 +129,11 @@ export const EventForm = ({
                             <div className="space-y-2">
                                 <Input
                                     type="date"
-                                    value={formData.endDate}
+                                    value={formData.date_fin}
                                     onChange={(e) =>
                                         setFormData({
                                             ...formData,
-                                            endDate: e.target.value,
-                                        })
-                                    }
-                                    required
-                                />
-                                <Input
-                                    type="time"
-                                    value={formData.endTime}
-                                    onChange={(e) =>
-                                        setFormData({
-                                            ...formData,
-                                            endTime: e.target.value,
+                                            date_fin: e.target.value,
                                         })
                                     }
                                     required
@@ -174,11 +146,11 @@ export const EventForm = ({
                         <Label htmlFor="location">Location (Optional)</Label>
                         <Input
                             id="location"
-                            value={formData.location}
+                            value={formData.lieu}
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    location: e.target.value,
+                                    lieu: e.target.value,
                                 })
                             }
                             placeholder="Enter location"

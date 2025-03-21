@@ -1,9 +1,10 @@
 export interface MyEvent {
-    id: string;
+    id_event: number; // Correspond à la clé primaire
     title: string;
-    start: Date;
-    end: Date;
-    description?: string;
-    location?: string;
-    resourceId?: string;
+    description: string;
+    content: string;
+    date_deb: Date;
+    date_fin: Date;
+    lieu: string;
+    organisateur_id: number;
 }

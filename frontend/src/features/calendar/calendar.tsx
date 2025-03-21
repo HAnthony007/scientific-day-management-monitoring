@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { format, getDay, parse, startOfWeek } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Plus } from "lucide-react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
     Calendar as BigCalendar,
     dateFnsLocalizer,
@@ -16,6 +16,8 @@ import {
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar-styles.css";
+import axiosInstance from "@/lib/axiosInstance";
+import { toast } from "sonner";
 
 const locales = {
     "en-US": enUS,
@@ -61,35 +63,51 @@ export default function Calendar() {
         setShowEventForm(true);
     };
 
-    const handleSaveEvent = (eventData: Omit<MyEvent, "id">) => {
-        if (selectedEvent) {
-            setEvents(
-                events.map((event) =>
-                    event.id === selectedEvent.id
-                        ? { ...eventData, id: event.id }
-                        : event
-                )
-            );
-        } else {
-            const newEvent: MyEvent = {
-                ...eventData,
-                id: Math.random().toString(36).substr(2, 9),
-            };
-            setEvents([...events, newEvent]);
+    const handleSaveEvent = async (eventData: Omit<MyEvent, "id">) => {
+        try {
+            if (selectedEvent) {
+                await axiosInstance.put(`/Events/${selectedEvent.id_event}`, eventData)
+            }
+            else {
+                await axiosInstance.post("/Events", eventData)
+            }
+            fetchEvents();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de l'événement:", error);
+            toast.error("Erreur lors de la mise à jour de l'événement")
         }
     };
 
-    const handleDeleteEvent = () => {
+    const handleDeleteEvent = async () => {
         if (selectedEvent) {
-            setEvents(events.filter((event) => event.id !== selectedEvent.id));
-            setShowEventDialog(false);
+            try {
+                await axiosInstance.delete(`/Events/${selectedEvent.id_event}` )
+            } catch (error) {
+                console.error("Erreur lors de la suppression de l'événement", error);
+                toast.error("Erreur lors de la suppression de l'événement")
+            }
         }
+        setShowEventDialog(false);
     };
 
     const handleEditEvent = () => {
         setShowEventDialog(false);
         setShowEventForm(true);
     };
+
+    const fetchEvents = async () => {
+        try {
+            const response = await axiosInstance.get("/Events");
+            setEvents(response.data.data);
+        } catch (error) {
+            console.error("Erreur lors du chargement des événements", error);
+            toast.error("Erreur lors du chargement des événements")
+        }
+    }
+
+    useEffect(() => {
+        fetchEvents();
+    }, [])
 
     const CustomToolbar: FC<ToolbarProps<MyEvent>> = (props) => {
         const { label, onNavigate, onView } = props;

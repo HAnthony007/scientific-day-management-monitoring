@@ -39,18 +39,18 @@ export const EventDialog = ({
                             Date & Time
                         </p>
                         <p className="text-sm">
-                            {format(event.start, "PPPP")}
+                            {format(event.date_deb, "PPPP")}
                             <br />
-                            {format(event.start, "p")} -{" "}
-                            {format(event.end, "p")}
+                            {format(event.date_deb, "p")} -{" "}
+                            {format(event.date_fin, "p")}
                         </p>
                     </div>
-                    {event.location && (
+                    {event.lieu && (
                         <div className="space-y-1">
                             <p className="text-sm font-medium text-gray-500">
                                 Location
                             </p>
-                            <p className="text-sm">{event.location}</p>
+                            <p className="text-sm">{event.lieu}</p>
                         </div>
                     )}
                     {event.description && (

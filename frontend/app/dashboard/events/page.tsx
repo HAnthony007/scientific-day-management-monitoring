@@ -1,11 +1,11 @@
-import Calendar from "@/features/calendar/calendar";
+// import Calendar from "@/features/calendar/calendar";
 import { Suspense } from "react";
 
 export default function CalendarPage() {
     return (
         <div>
             <Suspense fallback="Loading...">
-                <Calendar />
+                Hello World
             </Suspense>
         </div>
     );

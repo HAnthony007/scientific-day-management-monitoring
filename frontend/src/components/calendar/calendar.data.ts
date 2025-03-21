@@ -2,27 +2,14 @@ import { MyEvent } from "./calendar.type";
 
 export const dummyEvents: MyEvent[] = [
     {
-        id: "1",
-        title: "Team Meeting",
-        start: new Date(2024, 10, 20, 10, 0),
-        end: new Date(2024, 10, 20, 11, 30),
-        description: "Weekly team sync",
-        location: "Conference Room A",
-    },
-    {
-        id: "2",
-        title: "Project Review",
-        start: new Date(2024, 10, 21, 14, 0),
-        end: new Date(2024, 10, 21, 15, 0),
-        description: "Q4 project status review",
-        location: "Virtual",
-    },
-    {
-        id: "3",
-        title: "Client Call",
-        start: new Date(2024, 10, 22, 9, 0),
-        end: new Date(2024, 10, 22, 10, 0),
-        description: "Product demo with client",
-        location: "Zoom",
-    },
+        id_event: 1,
+        title: "IA",
+        description: "Un événement explorant les impacts et les innovations en intelligence artificielle.",
+        content: "Des experts discuteront des dernières avancées en IA et de leur application dans différents secteurs.",
+        date_deb: new Date("2025-03-20 08:30:00"),
+        date_fin: new Date("2025-03-20 16:30:00"),
+        lieu: "Centre Technologique - Port Toamasina",
+        organisateur_id: 3,
+    }
+   
 ];
