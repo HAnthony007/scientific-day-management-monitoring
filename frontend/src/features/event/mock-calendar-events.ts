@@ -20,6 +20,19 @@ const EVENT_TITLES = [
   'Team Training',
 ]
 
+const EVENT_LOCATION = [
+  "Université d'Antananarivo",
+  "Institut Français de Madagascar (IFM)",
+  "Hôtel Carlton Madagascar",
+  "Alliance Française de Mahajanga",
+  "Université de Mahajanga",
+  "Centre de Conférence International Ivato (CCI Ivato)",
+  "Radisson Blu Hotel Antananarivo Waterfront",
+  "Hôtel Colbert Antananarivo",
+  "Centre de Conférence Ivandry",
+  "Akamasoa Centre de Conférence"
+]
+
 // Extract color values from colorOptions
 const EVENT_COLORS = colorOptions.map((color) => color.value)
 
@@ -49,14 +62,17 @@ export function generateMockEvents(): CalendarEvent[] {
     const endTime = new Date(startTime.getTime() + durationMinutes * 60000)
 
     events.push({
-      id: `event-${i + 1}`,
+      id: i,
       title: EVENT_TITLES[Math.floor(Math.random() * EVENT_TITLES.length)],
       color: EVENT_COLORS[Math.floor(Math.random() * EVENT_COLORS.length)],
-      start: startTime,
-      end: endTime,
+      date_deb: startTime,
+      date_fin: endTime,
+      location: EVENT_LOCATION[Math.floor(Math.random() * EVENT_LOCATION.length)],
     })
   }
 
   // Sort events by start date
-  return events.sort((a, b) => a.start.getTime() - b.start.getTime())
+  console.log("events: ",events)
+  console.log("sort: ",events.sort((a, b) => a.date_deb.getTime() - b.date_deb.getTime()))
+  return events.sort((a, b) => a.date_deb.getTime() - b.date_deb.getTime())
 }

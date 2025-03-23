@@ -3,7 +3,7 @@ import { useCalendarContext } from '../calendar-context'
 
 export default function CalendarHeaderDateBadge() {
   const { events, date } = useCalendarContext()
-  const monthEvents = events.filter((event) => isSameMonth(event.start, date))
+  const monthEvents = events.filter((event) => isSameMonth(event.date_deb, date))
 
   if (!monthEvents.length) return null
   return (

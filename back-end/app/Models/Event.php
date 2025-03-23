@@ -12,13 +12,8 @@ class Event extends Model
     protected $primaryKey = 'id_event';
 
     protected $fillable = [
-        'title', 'description', 'content', 'date_deb', 'date_fin','lieu', 'organisateur_id'
+        'title', 'content', 'color', 'date_deb', 'date_fin','location' 
     ];
-
-    public function organizer()
-    {
-        return $this->belongsTo(User::class, 'organisateur_id', 'id_user');
-    }
 
     public function interventions()
     {

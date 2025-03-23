@@ -13,15 +13,19 @@ export type CalendarContextType = CalendarProps & {
   setNewEventDialogOpen: (open: boolean) => void
   manageEventDialogOpen: boolean
   setManageEventDialogOpen: (open: boolean) => void
+  descriptionEventDialogOpen: boolean
+  setDescriptionEventDialogOpen: (open: boolean) => void
   selectedEvent: CalendarEvent | null
   setSelectedEvent: (event: CalendarEvent | null) => void
 }
 export type CalendarEvent = {
-  id: string
+  id: number
   title: string
+  content?: string
   color: string
-  start: Date
-  end: Date
+  date_deb: Date
+  date_fin: Date
+  location: string
 }
 
 export const calendarModes = ['day', 'week', 'month'] as const

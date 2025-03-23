@@ -38,19 +38,20 @@ import {
 const formSchema = z
   .object({
     title: z.string().min(1, 'Title is required'),
-    start: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    date_deb: z.string().refine((val) => !isNaN(Date.parse(val)), {
       message: 'Invalid start date',
     }),
-    end: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    date_fin: z.string().refine((val) => !isNaN(Date.parse(val)), {
       message: 'Invalid end date',
     }),
     color: z.string(),
+    location: z.string().min(1, "Location is required"),
   })
   .refine(
     (data) => {
       try {
-        const start = new Date(data.start)
-        const end = new Date(data.end)
+        const start = new Date(data.date_deb)
+        const end = new Date(data.date_fin)
         return end >= start
       } catch {
         return false
@@ -66,6 +67,7 @@ export default function CalendarManageEventDialog() {
   const {
     manageEventDialogOpen,
     setManageEventDialogOpen,
+    setDescriptionEventDialogOpen,
     selectedEvent,
     setSelectedEvent,
     events,
@@ -76,9 +78,10 @@ export default function CalendarManageEventDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      start: '',
-      end: '',
+      date_deb: '',
+      date_fin: '',
       color: 'blue',
+      location: '',
     },
   })
 
@@ -86,9 +89,10 @@ export default function CalendarManageEventDialog() {
     if (selectedEvent) {
       form.reset({
         title: selectedEvent.title,
-        start: format(selectedEvent.start, "yyyy-MM-dd'T'HH:mm"),
-        end: format(selectedEvent.end, "yyyy-MM-dd'T'HH:mm"),
+        date_deb: format(selectedEvent.date_deb, "yyyy-MM-dd'T'HH:mm"),
+        date_fin: format(selectedEvent.date_fin, "yyyy-MM-dd'T'HH:mm"),
         color: selectedEvent.color,
+        location: selectedEvent.location
       })
     }
   }, [selectedEvent, form])
@@ -99,9 +103,10 @@ export default function CalendarManageEventDialog() {
     const updatedEvent = {
       ...selectedEvent,
       title: values.title,
-      start: new Date(values.start),
-      end: new Date(values.end),
+      start: new Date(values.date_deb),
+      end: new Date(values.date_fin),
       color: values.color,
+      location: values.location
     }
 
     setEvents(
@@ -120,6 +125,7 @@ export default function CalendarManageEventDialog() {
 
   function handleClose() {
     setManageEventDialogOpen(false)
+    setDescriptionEventDialogOpen(false)
     setSelectedEvent(null)
     form.reset()
   }
@@ -148,7 +154,7 @@ export default function CalendarManageEventDialog() {
 
             <FormField
               control={form.control}
-              name="start"
+              name="date_deb"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">Start</FormLabel>
@@ -162,7 +168,7 @@ export default function CalendarManageEventDialog() {
 
             <FormField
               control={form.control}
-              name="end"
+              name="date_fin"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">End</FormLabel>
@@ -188,7 +194,21 @@ export default function CalendarManageEventDialog() {
               )}
             />
 
-            <DialogFooter className="flex justify-between gap-2">
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">location</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Event location" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <DialogFooter className="flex justify-between gap-2 w-full">
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive" type="button">

@@ -3,6 +3,7 @@ import { format, isSameDay, isSameMonth } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { motion, MotionConfig, AnimatePresence } from 'framer-motion'
 import { useCalendarContext } from './calendar-context'
+import { toast } from 'sonner'
 
 interface EventPosition {
   left: string
@@ -18,9 +19,9 @@ function getOverlappingEvents(
   return events.filter((event) => {
     if (event.id === currentEvent.id) return false
     return (
-      currentEvent.start < event.end &&
-      currentEvent.end > event.start &&
-      isSameDay(currentEvent.start, event.start)
+      currentEvent.date_deb < event.date_fin &&
+      currentEvent.date_fin > event.date_deb &&
+      isSameDay(currentEvent.date_deb, event.date_deb)
     )
   })
 }
@@ -31,19 +32,19 @@ function calculateEventPosition(
 ): EventPosition {
   const overlappingEvents = getOverlappingEvents(event, allEvents)
   const group = [event, ...overlappingEvents].sort(
-    (a, b) => a.start.getTime() - b.start.getTime()
+    (a, b) => a.date_deb.getTime() - b.date_deb.getTime()
   )
   const position = group.indexOf(event)
   const width = `${100 / (overlappingEvents.length + 1)}%`
   const left = `${(position * 100) / (overlappingEvents.length + 1)}%`
 
-  const startHour = event.start.getHours()
-  const startMinutes = event.start.getMinutes()
+  const startHour = event.date_deb.getHours()
+  const startMinutes = event.date_deb.getMinutes()
 
-  let endHour = event.end.getHours()
-  let endMinutes = event.end.getMinutes()
+  let endHour = event.date_fin.getHours()
+  let endMinutes = event.date_fin.getMinutes()
 
-  if (!isSameDay(event.start, event.end)) {
+  if (!isSameDay(event.date_deb, event.date_fin)) {
     endHour = 23
     endMinutes = 59
   }
@@ -69,12 +70,12 @@ export default function CalendarEvent({
   month?: boolean
   className?: string
 }) {
-  const { events, setSelectedEvent, setManageEventDialogOpen, date } =
+  const { events, setSelectedEvent, date, descriptionEventDialogOpen, setDescriptionEventDialogOpen } =
     useCalendarContext()
   const style = month ? {} : calculateEventPosition(event, events)
 
   // Generate a unique key that includes the current month to prevent animation conflicts
-  const isEventInCurrentMonth = isSameMonth(event.start, date)
+  const isEventInCurrentMonth = isSameMonth(event.date_deb, date)
   const animationKey = `${event.id}-${
     isEventInCurrentMonth ? 'current' : 'adjacent'
   }`
@@ -92,7 +93,11 @@ export default function CalendarEvent({
           onClick={(e) => {
             e.stopPropagation()
             setSelectedEvent(event)
-            setManageEventDialogOpen(true)
+            console.log("Status"+ descriptionEventDialogOpen)
+            setDescriptionEventDialogOpen(true)
+            toast.success("Event selected")
+            console.log("Event selected: ", event)
+            console.log("Status"+ descriptionEventDialogOpen)
           }}
           initial={{
             opacity: 0,
@@ -137,10 +142,10 @@ export default function CalendarEvent({
               {event.title}
             </p>
             <p className={cn('text-sm', month && 'text-xs')}>
-              <span>{format(event.start, 'h:mm a')}</span>
+              <span>{format(event.date_deb, 'h:mm a')}</span>
               <span className={cn('mx-1', month && 'hidden')}>-</span>
               <span className={cn(month && 'hidden')}>
-                {format(event.end, 'h:mm a')}
+                {format(event.date_fin, 'h:mm a')}
               </span>
             </p>
           </motion.div>

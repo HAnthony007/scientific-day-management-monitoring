@@ -22,24 +22,55 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'content' => 'nullable|string',
-            'date_deb' => 'required|date',
-            'date_fin' => 'required|date|after_or_equal:date_deb',
-            'lieu' => 'required|string|max:255',
-            'organisateur_id' => 'required|exists:users,id_user'
-        ]);
-        $event = Event::create($validated);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'nullable|string',
+                'color' => 'required|string|in:blue,indigo,pink,red,orange,amber,emerald',
+                'date_deb' => 'required|date',
+                'date_fin' => 'required|date|after_or_equal:date_deb',
+                'location' => 'required|string|max:255',
+            ]);
 
-        return response()->json([
-            'data' => $event,
-            'msg' => 'Event add successfully'
-        ], 200);
+            $event = Event::create($validated);
+
+            return response()->json([
+                'data' => $event,
+                'msg' => 'Event added successfully'
+            ], 201); // 201 Created
+        } catch (ValidationException $e) {
+            return response()->json([
+                'errors' => $e->errors(),
+                'msg' => 'Validation error'
+            ], 422);
+        } catch (Exception $e) {
+            return response()->json([
+                'msg' => 'An error occurred while adding the event',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'content' => 'nullable|string',
+    //         'color' => 'required|string|max:100',
+    //         'date_deb' => 'required|date',
+    //         'date_fin' => 'required|date|after_or_equal:date_deb',
+    //         'location' => 'required|string|max:255',
+    //     ]);
+    //     $event = Event::create($validated);
+
+    //     return response()->json([
+    //         'data' => $event,
+    //         'msg' => 'Event add successfully'
+    //     ], 200);
+    // }
 
     /**
      * Display the specified resource.
@@ -73,12 +104,11 @@ class EventController extends Controller
 
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
-            'description' => 'nullable|string',
             'content' => 'nullable|string',
+            'color' => 'required|string|max:100',
             'date_deb' => 'sometimes|date',
             'date_fin' => 'sometimes|date|after_or_equal:date_deb',
-            'lieu' => 'sometimes|string|max:255',
-            'organisateur_id' => 'sometimes|exists:users,id_user'
+            'location' => 'sometimes|string|max:255',
         ]);
 
         $event->update($validated);

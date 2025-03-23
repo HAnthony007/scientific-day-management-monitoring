@@ -25,14 +25,15 @@ import { ColorPicker } from '@/components/form/color-picker'
 const formSchema = z
   .object({
     title: z.string().min(1, 'Title is required'),
-    start: z.string().datetime(),
-    end: z.string().datetime(),
+    date_deb: z.string().datetime(),
+    date_fin: z.string().datetime(),
     color: z.string(),
+    location: z.string().min(1, "Location is required"),
   })
   .refine(
     (data) => {
-      const start = new Date(data.start)
-      const end = new Date(data.end)
+      const start = new Date(data.date_deb)
+      const end = new Date(data.date_fin)
       return end >= start
     },
     {
@@ -49,19 +50,21 @@ export default function CalendarNewEventDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      start: format(date, "yyyy-MM-dd'T'HH:mm"),
-      end: format(date, "yyyy-MM-dd'T'HH:mm"),
+      date_deb: format(date, "yyyy-MM-dd'T'HH:mm"),
+      date_fin: format(date, "yyyy-MM-dd'T'HH:mm"),
       color: 'blue',
+      location: ''
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const newEvent = {
-      id: crypto.randomUUID(),
+      id: 1,
       title: values.title,
-      start: new Date(values.start),
-      end: new Date(values.end),
+      date_deb: new Date(values.date_deb),
+      date_fin: new Date(values.date_fin),
       color: values.color,
+      location: values.location,
     }
 
     setEvents([...events, newEvent])
@@ -93,7 +96,7 @@ export default function CalendarNewEventDialog() {
 
             <FormField
               control={form.control}
-              name="start"
+              name="date_deb"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">Start</FormLabel>
@@ -107,7 +110,7 @@ export default function CalendarNewEventDialog() {
 
             <FormField
               control={form.control}
-              name="end"
+              name="date_fin"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">End</FormLabel>
@@ -119,6 +122,19 @@ export default function CalendarNewEventDialog() {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">location</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Event location" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="color"
