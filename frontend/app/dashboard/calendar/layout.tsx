@@ -1,4 +1,4 @@
-export default function OverviewLayout({
+export default function CalendarLayout({
     children,
 }: {
     children: React.ReactNode;
@@ -7,5 +7,5 @@ export default function OverviewLayout({
         <div className="h-full w-full px-4">
             {children}
         </div>
-    );
+    )
 }

@@ -1,13 +1,13 @@
 // import Calendar from "@/features/calendar/calendar";
 import { Main } from "@/components/layout/main";
-import CalendarDemo from "@/features/event/calendar-demo";
+import Calendar from "@/features/calendar/calendar";
 import { Suspense } from "react";
 
-export default function EventsPage() {
+export default function CalendarPage() {
     return (
         <Main>
             <Suspense fallback="Loading...">
-                <CalendarDemo />
+                <Calendar />
             </Suspense>
         </Main>
     );

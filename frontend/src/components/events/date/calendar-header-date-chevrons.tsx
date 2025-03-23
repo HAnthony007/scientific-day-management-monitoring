@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { useCalendarContext } from '../../calendar-context'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   format,
@@ -10,6 +9,7 @@ import {
   subMonths,
   subWeeks,
 } from 'date-fns'
+import { useCalendarContext } from '../calendar-context'
 
 export default function CalendarHeaderDateChevrons() {
   const { mode, date, setDate } = useCalendarContext()

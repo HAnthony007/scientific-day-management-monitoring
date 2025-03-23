@@ -1,7 +1,11 @@
-export default function CalendarLayout({
+export default function EventsLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    return (
+        <div className="h-full w-full px-4">
+            {children}
+        </div>
+    )
 }

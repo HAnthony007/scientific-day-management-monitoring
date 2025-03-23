@@ -25,4 +25,12 @@ export const navItems: NavItem[] = [
         shortcut: ["c", "d"],
         items: [],
     },
+    {
+        title: "Calendar",
+        url: "/dashboard/calendar",
+        icon: "calendar",
+        isActive: false,
+        shortcut: ["c", "c"],
+        items: [],
+    },
 ];

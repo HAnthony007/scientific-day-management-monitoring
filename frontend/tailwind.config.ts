@@ -92,8 +92,7 @@ export default {
     				'Noto Color Emoji'
     			],
     			mono: [
-    				'var(--font-mono)',
-    				...require("tailwindcss/defaultTheme").fontFamily.mono
+    				'var(--font-mono)'
     			],
     			sans: [
     				'var(--font-sans)',

@@ -1,4 +1,3 @@
-import { GithubBtn } from "@/features/auth/login/github.btn";
 import { LoginForm } from "@/features/auth/login/login.form";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -25,9 +24,9 @@ export default async function LoginPage() {
                             Or continue with
                         </span>
                     </div>
-                    <Suspense fallback={"Loading ..."}>
+                    {/* <Suspense fallback={"Loading ..."}>
                         <GithubBtn />
-                    </Suspense>
+                    </Suspense> */}
                     <div className="text-sm font-medium leading-none">
                         Don&apos;t have an account?
                         <Link

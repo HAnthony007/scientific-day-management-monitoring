@@ -1,10 +1,10 @@
-import type { CalendarProps } from './calendar-types'
+import { CalendarProps } from './calendar-types'
 import CalendarHeader from './header/calendar-header'
 import CalendarBody from './body/calendar-body'
-import CalendarHeaderActions from './header/actions/calendar-header-actions'
-import CalendarHeaderDate from './header/date/calendar-header-date'
-import CalendarHeaderActionsMode from './header/actions/calendar-header-actions-mode'
-import CalendarHeaderActionsAdd from './header/actions/calendar-header-actions-add'
+import CalendarHeaderActions from './action/calendar-header-actions'
+import CalendarHeaderActionsMode from './action/calendar-header-actions-mode'
+import CalendarHeaderActionsAdd from './action/calendar-header-actions-add'
+import CalendarHeaderDate from './date/calendar-header-date'
 import CalendarProvider from './calendar-provider'
 
 export default function Calendar({

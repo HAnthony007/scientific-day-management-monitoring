@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Calendar from './calendar1/calendar'
-import { CalendarEvent, Mode } from './calendar1/calendar-types'
+import { CalendarEvent, Mode } from '@/components/events/calendar-types'
 import { generateMockEvents } from './mock-calendar-events'
+import Calendar from '@/components/events/calendar'
 
 export default function CalendarDemo() {
   const [events, setEvents] = useState<CalendarEvent[]>(generateMockEvents())
